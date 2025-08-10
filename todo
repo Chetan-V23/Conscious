@@ -1,0 +1,11 @@
+setup postgres
+
+refactor llm requests
+set hits 
+
+find a way to standardize company names as keys for the server
+
+flutter ui
+
+create users from other project
+user APIs
