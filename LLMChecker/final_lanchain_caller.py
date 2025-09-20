@@ -21,6 +21,17 @@ llm = OpenAI(
 
 # %%
 company_name = "Nestle"
+
+initial_prompt = f"""answer in yes or no only. 
+Do not give any other text
+Does {company_name} have a history of human rights violations and anti climate practices?"""
+
+reesponse_1 = llm.invoke(initial_prompt)
+
+if reesponse_1.lower().split()[0] == "no":
+    print("No history of human rights violations and anti-climate practices found.")
+    exit()
+
 query = f"List the main atrocities committed by {company_name} against climate and human rights"
 articles = search_tool.invoke(query)
 context = "\n\n".join([article["title"] + "\n"+ article["content"] for article in articles])
