@@ -47,7 +47,6 @@ class Agent:
         self.__model = ChatOpenAI(model= 'gpt-4o')
         self.__search_tool = TavilySearch(search_type="news", num_results=10)
 
-
         graph = StateGraph(AgentState)
         graph.add_node(self.__invoke_model.__name__, self.__invoke_model)
         self.__app = graph.compile()
