@@ -11,7 +11,6 @@ __pycache__/
 # Misc
 .DS_Store
 .idea/
-.vscode/
 *.iml
 
 # Flutter/Dart/Pub related
