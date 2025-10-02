@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from fast_api_backend.database import db_dependency
 from fast_api_backend.main import controller_dependency
-from Database.db_operations.services import get_companies, get_company_from_name, add_company
-from Database.schema import CreateCompany, Company
+from fast_api_backend.Database.db_operations.services import get_companies, get_company_from_name, add_company
+from fast_api_backend.Database.schema import CreateCompany, Company
 from typing import List
 
 router = APIRouter(prefix='/company', tags=["company"])
