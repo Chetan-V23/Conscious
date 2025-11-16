@@ -16,6 +16,15 @@ class Company(CompanyBase):
     class config:
         from_attribute = True
 
-# class CompanyShorts(BaseModel):
-#     company_short: str
-#     company_name: str
+class TokenRequest(BaseModel):
+    id_token: str
+
+class UserBase(BaseModel):
+    id_token: str
+    email: str
+    username:str
+
+class UserResponseModel(UserBase):
+    user_id: int
+    class config:
+        from_attribute = True

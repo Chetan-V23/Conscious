@@ -29,19 +29,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 25, 25, 12),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.gps_fixed,
-              size: 100,
+              size: 80,
               color: Colors.white,
             ),
             SizedBox(height: 20),
             Text(
-              'Man in Front of the Gun',
+              'Conscious',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

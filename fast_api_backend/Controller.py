@@ -1,5 +1,5 @@
 from typing import List, Union
-from LLMAgent.LLMAgent import Agent
+from .LLMAgent.LLMAgent import Agent
 from fast_api_backend.database import db_dependency
 
 class Controller:

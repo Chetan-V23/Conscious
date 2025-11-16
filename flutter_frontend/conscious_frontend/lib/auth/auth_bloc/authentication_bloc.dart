@@ -25,7 +25,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
 
     on<AuthenticationStatusChecked>((event, emit)async {
       String? user_token = await AuthHelperMethods().getAuthToken();
+      print(user_token);
       if (user_token == null){
+        print("Emitting unauthenticated");
         emit(Unauthenticated());
         return;
       }

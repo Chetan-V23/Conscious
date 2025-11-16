@@ -3,25 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'auth/auth_bloc/authentication_bloc.dart';
 import 'router.dart';
 void main() {
-  runApp(MyApp());
+  final AuthenticationBloc authBloc = AuthenticationBloc();
+  final appRouter = AppRouter(authBloc);
+  runApp(MyApp(appRouter: appRouter,authBloc: authBloc));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthenticationBloc authBloc;
+  final AppRouter appRouter;
+  const MyApp({required this.authBloc, required this.appRouter, super.key});
 
   @override
   Widget build(BuildContext context) {
 
-    final router = AppRouter(authBloc).router;
+    final router = appRouter.router;
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthenticationBloc>(
-          create: (context) => AuthenticationBloc(),
-        ),
-        // BlocProvider<TaskListBloc>(
-        //   create: (context) => TaskListBloc(),
-        // ),
+        BlocProvider<AuthenticationBloc>.value(value: authBloc,),
       ],
       child: MaterialApp.router(
         routerConfig: router,

@@ -27,7 +27,8 @@ class LoginUI extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () async {
-                User? user = await SignInWithGoogle().buttonSignIn();
+                User? user = await SignInWithGoogle().dummyUser();
+                // User? user = await SignInWithGoogle().buttonSignIn();
                 if(user!= null){
                   BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn(user: user));
                 }

@@ -33,6 +33,34 @@ class SignInWithGoogle {
 
   }
 
+  //THIS DEBUG METHOD WILL BE REMOVED LATER
+  Future<User?> dummyUser() async{
+    // Simulate a delay for dummy sign-in
+    await Future.delayed(Duration(milliseconds: 50));
+    // Return a dummy user
+    // send a call to the backend to get a dummy auth token and save it
+    final response = await http.post(
+      Uri.parse(DUMMY_ENDPOINT),
+      headers: {CONTENT_TYPE_KEY: CONTENT_TYPE_VALUE},
+      body: jsonEncode({"id_token": "idtoken_dummy"}),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      String accessToken = responseData['token'];
+      AuthHelperMethods().saveAuthToken(accessToken);
+      User user = User.fromJson(responseData['user']);
+      await UserHelperMethods().saveUserDataFromStorage(
+        jsonEncode(user.toJson()),
+      );
+      print(user.toJson());
+      return user;
+    } else {
+      print('Error: ${response.statusCode} - ${response.body}');
+    }
+    return User(name: 'Dummy User', email: '', s_acts: []);
+  }
+
   Future<void> _handleAuthenticationEvent(
       GoogleSignInAuthenticationEvent event) async {
     final GoogleSignInAccount? user =

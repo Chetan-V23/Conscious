@@ -6,9 +6,6 @@ import 'package:conscious_frontend/views/splash_screen.dart';
 import 'package:conscious_frontend/views/welcome_screen.dart';
 import 'auth/auth_bloc/authentication_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:conscious_frontend/views/task_view.dart';
-
-final AuthenticationBloc authBloc = AuthenticationBloc();
 
 class AppRouter {
   AuthenticationBloc authBloc;
@@ -40,12 +37,14 @@ class AppRouter {
       ],
       refreshListenable: StreamToListenable([authBloc.stream]),
       redirect: (context, state) {
+        print("In redirect");
         final isAuthenticated = authBloc.state is Authenticated;
         final isUnauthenticated = authBloc.state is Unauthenticated;
         if (isAuthenticated && (state.matchedLocation == LoginUI.routeName || state.matchedLocation == SplashScreen.routeName)) {
           return WelcomeScreen.routeName;
         }
         else if(isUnauthenticated && state.matchedLocation != LoginUI.routeName){
+          print("Not here for some reason");
           return LoginUI.routeName;
         }
         else{
@@ -65,6 +64,7 @@ class StreamToListenable extends ChangeNotifier {
       var s = stream.asBroadcastStream().listen((_) => notifyListeners());
       subscriptions.add(s);
     }
+    print("StreamToListenable initialized");
     notifyListeners();
   }
 

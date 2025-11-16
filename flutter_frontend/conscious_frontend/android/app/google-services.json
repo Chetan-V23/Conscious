@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:372590141053:android:3f942ec054fd4312fadb14",
+        "mobilesdk_app_id": "1:372590141053:android:3cdab9290fc2252efadb14",
         "android_client_info": {
-          "package_name": "com.conscious.somethn"
+          "package_name": "com.example.conscious_frontend"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "372590141053-274omcsageu345vsc7ma1es1lhs2kv91.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.conscious.somethn",
-            "certificate_hash": "b1f125b8b4d4c72ca41c55d5be83498333e611d5"
-          }
-        },
         {
           "client_id": "372590141053-tv27bulbstk2a2qk7091mdt2785b369f.apps.googleusercontent.com",
           "client_type": 3
