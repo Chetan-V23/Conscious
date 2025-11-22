@@ -32,3 +32,20 @@ async def google_auth(payload: TokenRequest, db: db_dependency):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="ion kno something u did"
         )
+
+@router.post("/dummy", response_model=UserResponseModel)
+async def dummy_auth(payload: TokenRequest, db: db_dependency):
+    try:
+        # Verify the token with Google
+        print(payload.id_token)
+        user_id = "dummy_user"
+        email = "dummy@dummy.com"
+        access_token = create_access_token({"sub": user_id, "email": email})
+        user = UserBase(id_token=access_token, email= email, username=user_id)
+        user = add_user_to_db(user, db_dependency)
+        return user
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="ion kno something u did"
+        )

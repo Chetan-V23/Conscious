@@ -35,10 +35,12 @@ class SignInWithGoogle {
 
   //THIS DEBUG METHOD WILL BE REMOVED LATER
   Future<User?> dummyUser() async{
-    // Simulate a delay for dummy sign-in
-    await Future.delayed(Duration(milliseconds: 50));
     // Return a dummy user
     // send a call to the backend to get a dummy auth token and save it
+    final final_dum = await http.post(
+      Uri.parse(DUMMY_ENDPOINT),
+      body: jsonEncode({"id_token": "idtoken"})
+    );
     final response = await http.post(
       Uri.parse(DUMMY_ENDPOINT),
       headers: {CONTENT_TYPE_KEY: CONTENT_TYPE_VALUE},

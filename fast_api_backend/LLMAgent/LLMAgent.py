@@ -8,8 +8,9 @@ from langgraph.graph import StateGraph, START, END, add_messages
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_tavily.tavily_search import TavilySearch
 from langchain_core.messages import BaseMessage, SystemMessage
+from langgraph.prebuilt import ToolNode
 from langgraph.prebuilt.chat_agent_executor import AgentState
-
+from tools import search_using_tavily
 
 class Agent:
     """
@@ -34,24 +35,44 @@ class Agent:
         :param state:
         :return:
         """
-        system_message = SystemMessage(["You are an AI agent thats responsible to find out the blah blah blah"])
+        system_message = SystemMessage(["You are an AI agent thats responsible to find out what kind of atrocities companies have done against the climate and human rights."
+                                        "Use the tools provided for web search. Compile the results in a dictionary format as follows - {"
+                                        "\"company name\": ,"
+                                        "\"atrocities\": [{"
+                                        "   \"title\": , "
+                                        "   \"severity\": ,"
+                                        "   \"summary\": , "
+                                        "   \"link\": }],}"
+                                        "Maximum of 5 main atrocities, arranged in worst to best"])
         self.__model.invoke(state["company"])
         return state
-
-    def __search_tool_node(self, state: AgentState)-> AgentState:
-        pass
-
 
 
     def __init__(self):
         self.__model = ChatOpenAI(model= 'gpt-4o')
-        self.__search_tool = TavilySearch(search_type="news", num_results=10)
-
+        tools = [search_using_tavily]
         graph = StateGraph(AgentState)
+        self.__model.bind_tools(tools)
+
         graph.add_node(self.__invoke_model.__name__, self.__invoke_model)
+
+        graph.add_edge(START, self.__invoke_model.__name__)
+
+        graph.add_node(search_using_tavily.__name__, search_using_tavily)
+
+        graph.add_conditional_edges(self.__invoke_model.__name__, self.should_continue, {
+            "end":END,
+            "continue": search_using_tavily.__name__,
+        })
+        graph.add_edge(search_using_tavily.__name__, self.__invoke_model.__name__)
         self.__app = graph.compile()
 
-    def invoke_llm(self, company_name) -> Union[List[str],None]:
-        res = self.__app.invoke(company_name)
 
-        return res
+    @staticmethod
+    def should_continue(state: AgentState) -> str:
+        messages = state["messages"]
+        last_message = messages[-1]
+        if not last_message.tool_calls:
+            return "end"
+        else:
+            return "continue"
